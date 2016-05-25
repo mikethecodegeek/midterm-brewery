@@ -4,12 +4,15 @@
 <table class="table">
     <tr>
         <th>Beer Name</th>
+        <th>Comment</th>
         <th>Rating</th>
     </tr>
     <tr ng-repeat = 'beer in apiData.data.items'>
         <td>{{beer.beer}}</td>
+        <td>{{beer.comment}}</td>
         <td>{{beer.rating}}</td>
         <td><button ng-click="editBeer(beer)">Change my Rating</button></td>
+        <td><button ng-click="unsampleBeer(beer)">I have not sampled this</button></td>
 
     </tr>
 </table>
@@ -25,6 +28,7 @@
     <tr ng-repeat = 'beer in apiData.data.notsampled'>
         <td>{{beer.beer}}</td>
         <td><button ng-click="editBeer(beer)">Change my Rating</button></td>
+        <td><button ng-click="sampleBeer(beer)">I just tried it!!</button></td>
 
     </tr>
 </table>

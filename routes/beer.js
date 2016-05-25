@@ -92,6 +92,8 @@ router.put('/editbeer/:id', (req,res)=> {
     });
 });
 
+
+
 router.get('/', (req,res)=> {
 
     Beer.find({})

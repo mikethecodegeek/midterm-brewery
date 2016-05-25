@@ -94,6 +94,44 @@ router.put('/:id', (req,res)=> {
     });
 });
 
+router.put('/samplebeer/:id', (req,res)=> {
+    //console.log('REQBODY: ', req.body)
+    User.find({username:req.body.user},(err,data)=> {
+        //console.log(data);
+        if (err){
+            console.log(err);
+        }
+        else {
+            //console.log(data)
+            //console.log('YAY', data[0].items)
+            //console.log('yippi', req.params.id)
+            for (var a=0; a< data[0].notsampled.length; a++) {
+               // console.log(data[0].notsampled[a])
+                if (data[0].notsampled[a] == req.params.id) {
+                    //console.log(data[0].notsampled[a])
+                    console.log(data[0].items)
+                    data[0].notsampled.splice(a,1);
+                    data[0].items.push(req.params.id);
+                }
+            }
+            res.send(data);
+        }
+    });
+});
+
+router.put('/unsamplebeer/:id', (req,res)=> {
+    console.log('REQBODY: ', req.body.user)
+    User.find({username:req.body.user}, (err,data)=> {
+        console.log(data);
+        if (err){
+            console.log(err);
+        }
+        else {
+            console.log(data)
+            res.send(data);
+        }
+    });
+});
 
 
 

@@ -18,6 +18,11 @@ var userSchema = new mongoose.Schema({
 });
 
 
+userSchema.statics.notSampled = function(userObj, cb){
+    
+}
+
+
 userSchema.statics.auth = role => {
     return function (req,res,next) {
        // console.log('TOKEN:', req.body)

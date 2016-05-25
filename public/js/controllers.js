@@ -122,7 +122,7 @@ app.controller('profileCtrl', function(userService, beerService, $scope, $state)
             userService.getProfile()
                 .then(stuff => {
                     $scope.apiData = stuff
-           //     console.log($scope.apiData)
+                console.log($scope.apiData)
     })
 
     $scope.logout = function () {
@@ -146,6 +146,22 @@ app.controller('profileCtrl', function(userService, beerService, $scope, $state)
             //            console.log($scope.apiData)
                     })
         })
+    }
+
+    $scope.sampleBeer= function(beer) {
+        beerService.sampleBeer(beer._id, $scope.apiData.data.username)
+            .then(beer => {
+                //$scope.listings = stuff.data;
+                console.log(beer)
+            });
+    }
+
+    $scope.unsampleBeer= function(beer) {
+        beerService.unSample(beer._id, $scope.apiData.data.username)
+            .then(stuff => {
+                //$scope.listings = stuff.data;
+                console.log(beer)
+            });
     }
 
 });
@@ -190,7 +206,7 @@ app.controller('editCtrl', function(userService, $scope, $state) {
 
 });
 
-app.controller('viewprofileCtrl', function(userService, $scope, $state) {
+app.controller('viewprofileCtrl', function(userService, beerService, $scope, $state) {
 
     userService.viewProfile($state.params)
         .then(stuff => {
@@ -200,6 +216,9 @@ app.controller('viewprofileCtrl', function(userService, $scope, $state) {
                 $scope.loggedin = true;
             }
         });
+
+
+
 
 });
 

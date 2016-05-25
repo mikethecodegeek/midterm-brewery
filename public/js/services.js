@@ -90,4 +90,14 @@ app.service('beerService',function($http) {
         return $http.put(`./api/beer/editbeer/${id}`, {rating: newRating});
     }
 
+    this.sampleBeer = (id, user) => {
+        //   console.log(user);
+        return $http.put(`./api/users/samplebeer/${id}`, {user: user});
+    }
+
+    this.unSample = (id, user) => {
+          //  console.log(user);
+        return $http.put(`./api/users/unsamplebeer/${id}`, {user: user});
+    }
+
 });
