@@ -102,32 +102,47 @@ router.put('/samplebeer/:id', (req,res)=> {
             console.log(err);
         }
         else {
-            //console.log(data)
-            //console.log('YAY', data[0].items)
-            //console.log('yippi', req.params.id)
+                console.log('params', req.params.id)
             for (var a=0; a< data[0].notsampled.length; a++) {
-               // console.log(data[0].notsampled[a])
+                console.log('other',data[0].notsampled[a])
                 if (data[0].notsampled[a] == req.params.id) {
                     //console.log(data[0].notsampled[a])
                     console.log(data[0].items)
                     data[0].notsampled.splice(a,1);
                     data[0].items.push(req.params.id);
+                    console.log(data[0].notsampled)
                 }
             }
+            data[0].save();
             res.send(data);
         }
     });
 });
 
 router.put('/unsamplebeer/:id', (req,res)=> {
-    console.log('REQBODY: ', req.body.user)
+    //console.log('REQBODY: ', req.body.user)
     User.find({username:req.body.user}, (err,data)=> {
-        console.log(data);
+       // console.log(data);
         if (err){
             console.log(err);
         }
         else {
+           // console.log('params', req.params.id)
+            console.log(data[0])
+            for (var a=0; a< data[0].items.length; a++) {
+               // console.log('other', data[0].items[a])
+                // console.log(data[0].notsampled[a])
+                if (data[0].items[a] == req.params.id) {
+                    //console.log(data[0].notsampled[a])
+                    //console.log(data[0].items)
+                    console.log('yay')
+                    data[0].items.splice(a,1);
+                    data[0].notsampled.push(req.params.id);
+                    console.log(data[0].items)
+                }
+            }
             console.log(data)
+            data[0].save();
             res.send(data);
         }
     });
