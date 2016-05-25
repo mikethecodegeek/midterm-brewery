@@ -1,2 +1,9 @@
-<h2> {{apiData.data.username}}  </h2>
+<h1 class = 'center'> {{apiData.data.username}}  </h1>
+
+<h2>Sampled Beers</h2>
+<p ng-repeat = 'beer in apiData.data.items'>{{beer}} </p>
+
+
+<h2>Beers I Haven't Tried</h2>
+<p ng-repeat = 'beer in apiData.data.notsampled'>{{beer}} </p>
 

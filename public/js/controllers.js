@@ -1,13 +1,15 @@
 'use strict';
 var app = angular.module('angularApp');
 
-app.controller('homeCtrl', function(userService, $scope, $state) {
-    
+app.controller('homeCtrl', function(userService, beerService, $scope, $state) {
+
     $scope.loggedin = false;
+    var username ='';
     var currentUser = userService.getProfile()
         .then(stuff => {
-            console.log(stuff);
+            console.log(stuff)
             $scope.loggedin =true;
+            username = stuff.data.username;
         });
 
 
@@ -19,8 +21,51 @@ app.controller('homeCtrl', function(userService, $scope, $state) {
             });
     }
 
+    $scope.getRandomBeer = function() {
+        var beer = {
+            beer: $scope.beer.name,
+            beerid: $scope.beer.id,
+            comment: 'N/A',
+            rating: 'N/A',
+            sampled: false,
+            user: username
+        }
 
+        // console.log(beer);
+        beerService.notSampled(beer)
+            .then(stuff => {
+                //$scope.listings = stuff.data;
+                console.log(stuff)
+            });
+        getBeer();
+    }
+    function getBeer() {
+        beerService.getRandom()
+            .then(beer => {
+                $scope.beer = beer.data.data;
+            })
+    }
 
+    getBeer();
+
+    $scope.rate = function() {
+        var beer = {
+            beer: $scope.beer.name,
+            beerid: $scope.beer.id,
+            comment: $('#comment').val(),
+            rating: $('#rating').val(),
+            sampled: true,
+            user: username
+        }
+
+       // console.log(beer);
+        beerService.rateBeer(beer)
+            .then(stuff => {
+                //$scope.listings = stuff.data;
+                console.log(stuff)
+            });
+    }
+    
 
 
 });
@@ -36,7 +81,6 @@ app.controller('itemCtrl', function(itemService, $scope, $state) {
 });
 
 app.controller('itemDetailCtrl', function(userService, itemService, $scope, $state) {
-    //console.log($state.params.id)
     var user = "";
     userService.getProfile()
         .then(stuff => {
@@ -45,34 +89,13 @@ app.controller('itemDetailCtrl', function(userService, itemService, $scope, $sta
     itemService.viewItem($state.params.id)
         .then(stuff => {
             $scope.listing = stuff.data;
-          
+
         });
-    
+
 
 });
 
-app.controller('newItemCtrl', function(userService, itemService, $scope, $state) {
-    var user = "";
-       userService.getProfile()
-        .then(stuff => {
-           // $scope.apiData = stuff;
-             console.log(stuff)
-            user= stuff;
-        });
-      // console.log(currentUser)
-    $scope.postItem = function() {
-        var newPost = {
-            name: $scope.newName,
-        }
-        itemService.createItem(newPost)
-            .then(stuff => {
-                $scope.listing = stuff;
-                    $state.go('myprofile');
-            });
-    }
 
-
-});
 
 
 app.controller('loginCtrl', function(userService, $scope, $state, $auth) {
@@ -92,7 +115,7 @@ app.controller('loginCtrl', function(userService, $scope, $state, $auth) {
                 $state.go('myprofile')
             });
     }
-    
+
 });
 app.controller('profileCtrl', function(userService, $scope, $state) {
     console.log('Profiles');
@@ -101,7 +124,7 @@ app.controller('profileCtrl', function(userService, $scope, $state) {
                     $scope.apiData = stuff
                 console.log($scope.apiData)
     })
-            
+
     $scope.logout = function () {
         userService.logout()
             .then(stuff => {
@@ -117,7 +140,7 @@ app.controller('registerCtrl', function(userService, $scope, $state) {
             email: $scope.newEmail,
             username: $scope.newUsername,
             password: $scope.newPassword,
-           
+
         };
         userService.register(thisuser)
             //console.log(thisuser)
@@ -125,7 +148,7 @@ app.controller('registerCtrl', function(userService, $scope, $state) {
             $state.go('home')
          });
     }
-   
+
 
 });
 
@@ -165,4 +188,4 @@ app.controller('viewprofileCtrl', function(userService, $scope, $state) {
 
 });
 
-    
+

@@ -71,3 +71,18 @@ app.service('itemService',function($http) {
 
 
 });
+
+app.service('beerService',function($http) {
+    this.getRandom = () => {
+        return $http.get('./api/beer/random');
+    };
+
+    this.rateBeer = (beer) => {
+        return $http.post('./api/beer/ratebeer', {beer: beer})
+    }
+
+    this.notSampled = (beer) => {
+        return $http.post('./api/beer/notsampled', {beer: beer})
+    }
+
+});

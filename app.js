@@ -15,7 +15,7 @@ var qs = require('querystring');
 var jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET;
 //var MONGODB_URI = 'mongodb://<example>:<example>@ds013222.mlab.com:13222/properties'
-const MONGOURL = process.env.MONGODB_URI || 'mongodb://localhost/mongo-template';
+const MONGOURL = process.env.MONGODB_URI || 'mongodb://localhost/beer';
 mongoose.connect(MONGOURL, err => {
     console.log(err || 'Connected to MongoDB')
 });
@@ -28,7 +28,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 var User = require('./models/user');
 
-app.use('/auth', require('./routes/auth'))
 app.use('/api', require('./routes/api'));
 app.use('/', require('./routes/index'));
 

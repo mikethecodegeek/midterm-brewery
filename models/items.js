@@ -3,14 +3,16 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
 var User = require('./user');
-//console.log(User);
-console.log('');
-var itemSchema = new mongoose.Schema({
-    itemname: { type: String, required: true },
-    description: { type: String, default: 'N/A' }
+
+var beerSchema = new mongoose.Schema({
+    beer: { type: String, required: true },
+    beerid: {type: String},
+    rating: { type: String, default: 'N/A' },
+    comment: {type: String},
+    sampled: {type: Boolean, default: false}
 });
 
-var Item = mongoose.model('Item', itemSchema);
+var Beer = mongoose.model('Beer', beerSchema);
 
-module.exports = Item;
+module.exports = Beer;
 

@@ -4,8 +4,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 var moment = require('moment');
 var jwt = require('jsonwebtoken');
-
-var Item = require('./items');
+//var Beer = require('./items');
 var JWT_SECRET = process.env.JWT_SECRET || 'assasadsasadfsadf';
 
 var userSchema = new mongoose.Schema({
@@ -14,7 +13,8 @@ var userSchema = new mongoose.Schema({
     username: {type: String, unique: true},
     password: { type: String },
     admin: { type: Boolean, default: false },
-    items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Item' }],
+    items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'beers' }],
+    notsampled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'beers' }]
 });
 
 
@@ -64,14 +64,8 @@ userSchema.statics.register = (userObj, cb) => {
 
             user.save((err, savedUser) => {
                 console.log("err", err)
-              //  Mail.sendVerify(savedUser, err => {
                      savedUser.password = null;
                      cb(err, savedUser);
-                //})
-
-                //savedUser.password = null;
-
-               // cb(err, savedUser);
             });
         });
     });
@@ -93,7 +87,7 @@ userSchema.statics.authenticate = (userObj, cb) => {
 };
 
 userSchema.methods.getCurrentUser = function() {
-    User.findById(userId, (err, user, cb) => {
+    User.findById(userId).populate(items).populate(notsampled).exec(function (err, user, cb) {
         return cb(user);
     })
 }
@@ -107,16 +101,6 @@ userSchema.methods.generateToken = function() {
 };
 
 
-userSchema.methods.makeVerifyLink = function() {
-    var payload = {
-        _id: this._id,
-        exp: moment().add(1, 'week').unix()
-    };
-
-    var token = jwt.sign(payload, JWT_SECRET);
-
-    return `http://localhost:3000/api/users/verify/${token}`;
-};
 
 userSchema.statics.verify = (token, cb) => {
     jwt.verify(token, JWT_SECRET, (err, payload) => {
@@ -131,6 +115,29 @@ userSchema.statics.verify = (token, cb) => {
         });
     });
 };
+
+userSchema.statics.rateBeer = function(beer, user, cb) {
+    User.findOne({username: user}, function(err, dbuser) {
+        dbuser.items.push(beer._id);
+        dbuser.save(err, function() {
+            if (err){cb(err)}
+        })
+    })
+    cb(beer);
+}
+
+userSchema.statics.notSampled = function(beer, user, cb) {
+    User.findOne({username: user}, function(err, dbuser) {
+        console.log('err', err)
+        console.log('DBUSER', dbuser);
+        dbuser.notsampled.push(beer._id);
+        dbuser.save(err, function() {
+            if (err){cb(err)}
+        })
+    })
+    cb(beer);
+}
+
 var User = mongoose.model('User', userSchema);
 
 module.exports = User;
