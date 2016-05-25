@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Angular</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/satellizer/0.14.0/satellizer.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="/js/sweetalert.min.js"></script>
+    <script src="/js/module.js"></script>
+    <script src="/js/controllers.js"></script>
+    <script src="/js/services.js"></script>
+    <script src="/js/main.js"></script>
+
+
+</head>
+<body ng-app='angularApp'>
+
+<nav>
+    <div class="nav-wrapper red">
+        <ul id="nav-mobile" class="hide-on-med-and-down left">
+            <li> <a ui-sref='home'>Home</a></li>
+            <li> <a ui-sref='viewitems'>View Items</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <ui-view></ui-view>
+</div>
+</body>
+</html>
