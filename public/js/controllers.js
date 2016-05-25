@@ -65,7 +65,7 @@ app.controller('homeCtrl', function(userService, beerService, $scope, $state) {
                 console.log(stuff)
             });
     }
-    
+
 
 
 });
@@ -117,12 +117,12 @@ app.controller('loginCtrl', function(userService, $scope, $state, $auth) {
     }
 
 });
-app.controller('profileCtrl', function(userService, $scope, $state) {
-    console.log('Profiles');
+app.controller('profileCtrl', function(userService, beerService, $scope, $state) {
+  //  console.log('Profiles');
             userService.getProfile()
                 .then(stuff => {
                     $scope.apiData = stuff
-                console.log($scope.apiData)
+           //     console.log($scope.apiData)
     })
 
     $scope.logout = function () {
@@ -131,6 +131,21 @@ app.controller('profileCtrl', function(userService, $scope, $state) {
                 $scope.loggedin = false;
                 $state.go('home');
             });
+    }
+
+    $scope.editBeer = function(beer) {
+      //  console.log(beer)
+        var rating = $('#newrating').val();
+
+        beerService.editById(beer._id, rating)
+            .then(rating => {
+        //    console.log(rating);
+                userService.getProfile()
+                    .then(stuff => {
+                        $scope.apiData = stuff
+            //            console.log($scope.apiData)
+                    })
+        })
     }
 
 });

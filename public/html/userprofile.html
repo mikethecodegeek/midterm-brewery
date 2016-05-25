@@ -1,9 +1,30 @@
 <h1 class = 'center'> {{apiData.data.username}}  </h1>
-
+<input type="number" id="newrating">
 <h2>Sampled Beers</h2>
-<p ng-repeat = 'beer in apiData.data.items'>{{beer}} </p>
+<table class="table">
+    <tr>
+        <th>Beer Name</th>
+        <th>Rating</th>
+    </tr>
+    <tr ng-repeat = 'beer in apiData.data.items'>
+        <td>{{beer.beer}}</td>
+        <td>{{beer.rating}}</td>
+        <td><button ng-click="editBeer(beer)">Change my Rating</button></td>
+
+    </tr>
+</table>
+
+
 
 
 <h2>Beers I Haven't Tried</h2>
-<p ng-repeat = 'beer in apiData.data.notsampled'>{{beer}} </p>
+<table class="table">
+    <tr>
+        <th>Beer Name</th>
+    </tr>
+    <tr ng-repeat = 'beer in apiData.data.notsampled'>
+        <td>{{beer.beer}}</td>
+        <td><button ng-click="editBeer(beer)">Change my Rating</button></td>
 
+    </tr>
+</table>

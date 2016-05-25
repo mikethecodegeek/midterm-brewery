@@ -68,6 +68,30 @@ router.post('/notsampled', (req, res) => {
     });
 });
 
+router.delete('/deletebeer/:id', (req, res) => {
+    Beer.findByIdAndRemove(req.params.id, (err,data)=> {
+        if (err){
+            console.log(err);
+        }
+        else {
+            res.send(data);
+        }
+    });
+});
+
+router.put('/editbeer/:id', (req,res)=> {
+    console.log('REQBODY: ', req.body)
+    Beer.findByIdAndUpdate(req.params.id,{$set: req.body}, {new:true}, (err,data)=> {
+        console.log(data);
+        if (err){
+            console.log(err);
+        }
+        else {
+            res.send(data);
+        }
+    });
+});
+
 router.get('/', (req,res)=> {
 
     Beer.find({})

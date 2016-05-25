@@ -85,4 +85,9 @@ app.service('beerService',function($http) {
         return $http.post('./api/beer/notsampled', {beer: beer})
     }
 
+    this.editById = (id, newRating) => {
+    //    console.log(newRating);
+        return $http.put(`./api/beer/editbeer/${id}`, {rating: newRating});
+    }
+
 });

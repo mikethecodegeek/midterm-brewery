@@ -13,8 +13,8 @@ var userSchema = new mongoose.Schema({
     username: {type: String, unique: true},
     password: { type: String },
     admin: { type: Boolean, default: false },
-    items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'beers' }],
-    notsampled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'beers' }]
+    items: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beer' }],
+    notsampled: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Beer' }]
 });
 
 
@@ -27,7 +27,7 @@ userSchema.statics.auth = role => {
             console.log(payload)
             if(err) return res.status(401).send({error: 'Authentication required.'});
 
-            User.findById(payload._id, (err, user) => {
+            User.findById(payload._id).populate('items notsampled').exec(function (err, user) {
                 if(err || !user) return res.status(401).send({error: 'User not found.'});
 
                 req.user = user;
@@ -38,7 +38,7 @@ userSchema.statics.auth = role => {
 
                 next();
 
-            }).select('-password');
+            }) //.select('-password');
         });
     }
 }
@@ -87,7 +87,7 @@ userSchema.statics.authenticate = (userObj, cb) => {
 };
 
 userSchema.methods.getCurrentUser = function() {
-    User.findById(userId).populate(items).populate(notsampled).exec(function (err, user, cb) {
+    User.findById(userId).populate('items').exec(function (err, user, cb) {
         return cb(user);
     })
 }

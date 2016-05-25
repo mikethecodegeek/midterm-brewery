@@ -26,7 +26,8 @@ router.post('/register', (req,res) => {
 });
 
 router.get('/profile', User.auth(), (req,res) => {
-    console.log(req.user);
+    //console.log(req.user);
+    //console.log(req.user.populate('items'))
     res.send(req.user);
 });
 
